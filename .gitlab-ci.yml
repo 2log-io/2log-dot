@@ -1,0 +1,20 @@
+stages:
+- build
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+image: frime/2log-esp32-buildenv
+
+build:
+  stage: build
+  script:
+   - . $IDF_PATH/export.sh
+   - idf.py build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - ./build
+  artifacts:
+    paths:
+      - ./build
