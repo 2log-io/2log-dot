@@ -40,7 +40,8 @@ namespace _2log
 				ANIM_ERROR		= 2,
 				ANIM_CARD_READ	= 3,
 				ANIM_RUNNING	= 4,
-				ANIM_WARNING	= 5
+				ANIM_WARNING	= 5,
+				ANIM_FADETO     = 6
 			};
 
 			enum State
@@ -57,10 +58,11 @@ namespace _2log
 			bool					init(void);
 
 			void                    start();
-
+    		
 			void					setState(State state);
 			void					show(void);
 			void					stopAnimation(void);
+			void 					fadeTo(uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness = 255);
 			void					setAll(uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness = 255);
 
 			void					showAccept(void);
@@ -80,7 +82,10 @@ namespace _2log
 
 			void					showRunning(void);
 			void					animRunningFrame(void);
-
+			void 					animateFadeToFrame(void);
+			void					animateFade(uint8_t red, uint8_t green, uint8_t blue);
+			 
+			void					animateFadeTo(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 			void					animateStrobe(uint8_t red, uint8_t green, uint8_t blue, int strobeCount);
 			void					animateCircle(uint8_t red, uint8_t green, uint8_t blue);
 
@@ -98,6 +103,16 @@ namespace _2log
 			State					_currentState = STATE_IDLE;
 			Animation				_currentAnimation = ANIM_NONE;
 			int						_currentAnimationFrame = 0;
+
+			uint8_t                _r = 0;
+			uint8_t                _g = 0;
+			uint8_t                _b = 0;
+			uint8_t                _a = 0;
+
+			uint8_t                _rFadeAnim = 0;
+			uint8_t                _gFadeAnim = 0;
+			uint8_t                _bFadeAnim = 0;
+			uint8_t                _aFadeAnim = 0;
 
 	};
 }

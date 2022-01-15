@@ -16,6 +16,7 @@
  */
 
 #include "Animations.h"
+#include <math.h>       
 
 extern "C"
 {
@@ -44,11 +45,8 @@ namespace _2log
 	bool Animations::init()
 	{
 		ESP_LOGI(TAG, "Animations::init()");
-
 		_strip.Begin();
-
 		initTimer();
-
         return true;
     }
 
@@ -66,13 +64,13 @@ namespace _2log
 		{
 			case STATE_IDLE:
 
-				setAll(0,0,0);
+				fadeTo(0,0,0);
 				show();
 				break;
 
 			case STATE_ERROR:
 
-				setAll(255,0,0);
+				fadeTo(255,0,0);
 				show();
 				break;
 
@@ -82,7 +80,7 @@ namespace _2log
 
 			case STATE_LOGGED_IN:
 
-				setAll(0,0,255);
+				fadeTo(0,0,255);
 				show();
 				break;
 
@@ -191,8 +189,11 @@ namespace _2log
 						break;
 
 					case ANIM_RUNNING:
-
 						animRunningFrame();
+						break;
+
+					case ANIM_FADETO:
+						animateFadeToFrame();
 						break;
 
 					case ANIM_WARNING:
@@ -255,6 +256,11 @@ namespace _2log
 		animateStrobe(0, 0, 255, 2);
 	}
 
+	void Animations::animateFadeToFrame(void)
+	{
+		animateFadeTo(_rFadeAnim, _gFadeAnim, _bFadeAnim, _aFadeAnim);    
+	}
+
 	void Animations::animErrorFrame(void)
 	{
 		animateStrobe(255, 0, 0, 3);
@@ -305,6 +311,18 @@ namespace _2log
 		}
 	}
 
+	void Animations::animateFade(uint8_t red, uint8_t green, uint8_t blue)
+	{
+		uint8_t brightness = 20 + abs(_currentAnimationFrame - 128);   
+		setAll(red, green, blue, brightness);
+		_currentAnimationFrame++;
+
+		if(_currentAnimationFrame == 256)
+		{
+			_currentAnimationFrame = 0;
+		}
+	}
+
 	void Animations::animateCircle(uint8_t red, uint8_t green, uint8_t blue)
 	{
 		setAll(0, 0, 0);
@@ -327,6 +345,22 @@ namespace _2log
 		_currentAnimationFrame = (_currentAnimationFrame+1) % CIRCLE_FRAMES;
 	}
 
+	void Animations::fadeTo(uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness)
+	{
+		stopAnimation();
+		_rFadeAnim = red;
+		_gFadeAnim = green;
+		_bFadeAnim  = blue;
+		_aFadeAnim = brightness;
+
+		_currentAnimation = ANIM_FADETO;
+
+		timer_set_counter_value(timerGroup, timer, 0x00000000ULL);
+		timer_set_alarm_value(timerGroup, timer, 10 * ( TIMER_SCALE / 1000.0) );
+		animateFadeToFrame();
+		timer_start(timerGroup, timer);	
+	}
+
 	void Animations::setPixelColor(uint8_t idx, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 	{
 		float factor = (float) a / 255;
@@ -341,5 +375,32 @@ namespace _2log
 	void Animations::setBrightness(uint8_t brightness)
 	{
 		_strip.SetBrightness(brightness);
+	}
+
+
+	void Animations::animateFadeTo(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+	{
+		float progress = _currentAnimationFrame / 32.0;
+		uint8_t r = _r + round(((float) red - _r) * progress);
+		uint8_t g = _g + round(((float) green - _g) * progress);
+		uint8_t b = _b + round(((float) blue - _b) * progress);
+		uint8_t a = _a + round(((float) alpha - _a) * progress);
+
+		_strip.SetBrightness(a);
+		for(int i = 0; i < _ledCount; i++ ) 
+		{
+			setPixelColor(i, r, g, b);
+		}
+		_strip.Show();
+
+		_currentAnimationFrame++;
+		if(_currentAnimationFrame == 32)
+		{
+			_currentAnimationFrame = 0;
+			setAll(red,green,blue,alpha);
+			timer_pause(timerGroup, timer);
+			_currentAnimation = ANIM_NONE;
+			_currentAnimationFrame = 0;
+		}
 	}
 }

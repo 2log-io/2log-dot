@@ -55,7 +55,7 @@ namespace _2log
 		_animations.init();
 		_animations.start();
 		_animations.setAll(25,0,0);
-		_animations.show();
+        _animations.show();
 
                 _resetButton.setPressDuration(3000);
                 _resetButton.setButtonPressedCallback(std::bind(static_cast<void(Dot::*)(void)>(&Dot::resetDeviceConfigurationAndRestart), this));
