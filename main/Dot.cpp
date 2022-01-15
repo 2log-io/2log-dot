@@ -159,16 +159,14 @@ namespace _2log
             case BaseDeviceState::Configuring:
 
                 ESP_LOGW(LOG_TAG, "baseDeviceStateChanged: Configuring");
-                _animations.setAll(0,0,25);
-				_animations.show();
+                _animations.fadeTo(25,0,25);
 
 				return;
 
             case BaseDeviceState::Connecting:
 
                 ESP_LOGW(LOG_TAG, "baseDeviceStateChanged: Connecting");
-                _animations.setAll(0,25,0);
-				_animations.show();
+                _animations.fadeTo(0,25,0);
 
                 _resetButton.start();
                 if( _resetButton.isPressed() )
@@ -188,8 +186,7 @@ namespace _2log
             case BaseDeviceState::UpdatingFirmware:
 
                 ESP_LOGW(LOG_TAG, "baseDeviceStateChanged: UpdatingFirmware");
-                _animations.setAll(0,0,25);
-				_animations.show();
+                _animations.fadeTo(0,0,25);
 
 				return;
 
