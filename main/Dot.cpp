@@ -106,6 +106,7 @@ namespace _2log
 			sprintf(hexNumber, "%02X", uid[i]);
 			idString.append(hexNumber);
 		}
+        _animations.showCardRead();
 
 		_deviceNode->sendData( idString.c_str() );
 	}
