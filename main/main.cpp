@@ -83,6 +83,7 @@ extern "C"
 		printf("Initialized BOD\n");
 
 		REG_SET_BIT(RTC_CNTL_INT_ENA_REG, RTC_CNTL_BROWN_OUT_INT_ENA_M);
+
 	}
 }
 
@@ -91,7 +92,11 @@ static _2log::Dot   dotInstance;
 
 extern "C" void app_main(void)
 {
-	brownout_init();
+	#if DISABLE_BROWNOUT_DETECTION == 1
+		WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
+	#else
+		brownout_init();
+	#endif
 
 	dotInstance.startDevice();
 

@@ -44,6 +44,7 @@ extern "C"
 #define DUMP_TASK_STATS                 0
 #define OVERRIDE_CONFIG                 0
 #define OVERRIDE_WIFI                   0
+#define DISABLE_BROWNOUT_DETECTION      1
 
 #if OVERRIDE_CONFIG == 1
     #define SERVER_URL                  "wss://switchtesting.dev.2log.io"
