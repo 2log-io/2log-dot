@@ -34,7 +34,7 @@ namespace _2log
 	{
 		public:
 
-									CardReader(uint8_t SCK, uint8_t MISO, uint8_t MOSI, uint8_t SS, uint8_t IRQ, CardReaderEventHandler *eventHandler);
+									CardReader(uint8_t sda, uint8_t scl,uint8_t reset,uint8_t irq, CardReaderEventHandler *eventHandler);
 			virtual					~CardReader() override;
 
 			bool					init(void);
@@ -52,8 +52,6 @@ namespace _2log
 			};
 
 		private:
-
-			pn532_t					_nfcReader;
 			uint8_t					_irqPin;
 			CardReaderEventHandler*	_eventHandler;
 			QueueHandle_t			_eventQueue = { nullptr };

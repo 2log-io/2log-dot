@@ -119,7 +119,13 @@ namespace
 #define PN532_MOSI                      23
 #define PN532_SS                        5
 #define PN532_MISO                      19
-#define PN532_IRQ                       27
+#define PN532_IRQ                       16
+
+// i2c
+#define PN532_SDA                      21
+#define PN532_SCL                      22
+#define PN532_RST                      25
+
 
 #endif
 

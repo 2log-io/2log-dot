@@ -45,7 +45,7 @@ namespace _2log
 {
 	Dot::Dot() : BaseDevice(),
                 _animations(DOT_LED_RING_GPIO),
-				_cardReader(PN532_SCK, PN532_MISO, PN532_MOSI, PN532_SS, PN532_IRQ, this),
+				_cardReader(PN532_SDA, PN532_SCL, PN532_RST, PN532_IRQ, this),
                 _rssi(0),
                 _dotState(0),
                 _lastRSSITick(0),
