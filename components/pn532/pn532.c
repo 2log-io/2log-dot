@@ -12,7 +12,7 @@
  */
 /**************************************************************************/
 
-#include <PN532.h>
+#include <pn532.h>
 #include <stdio.h>
 #include <string.h>
 #include "freertos/FreeRTOS.h"
