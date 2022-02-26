@@ -53,9 +53,7 @@ extern "C"
 #define MEMORY_DEBUGGING                0
 #define MAX_DEBUGGING_TASKS_NUMBER      15
 
-//#define DOT_HARDWARE_REVISION           311
-//#define DOT_HARDWARE_REVISION           312
-#define DOT_HARDWARE_REVISION           211 //OpenSource, ESP32, NRF
+#define DOT_HARDWARE_REVISION           320 
 
 namespace
 {
@@ -121,11 +119,18 @@ namespace
 #define PN532_MISO                      19
 #define PN532_IRQ                       16
 
+#endif
+
+#if DOT_HARDWARE_REVISION == 320
+
+#define DOT_RESETBUTTON_GPIO            13
+#define DOT_LED_RING_GPIO               32
+
 // i2c
 #define PN532_SDA                       21
 #define PN532_SCL                       22
 #define PN532_RST                       25
-
+#define PN532_IRQ                       16
 
 #endif
 
