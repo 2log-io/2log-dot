@@ -44,7 +44,7 @@ extern "C"
 #define DUMP_TASK_STATS                 0
 #define OVERRIDE_CONFIG                 0
 #define OVERRIDE_WIFI                   0
-#define DISABLE_BROWNOUT_DETECTION      1
+#define DISABLE_BROWNOUT_DETECTION      0
 
 #if OVERRIDE_CONFIG == 1
     #define SERVER_URL                  "wss://switchtesting.dev.2log.io"
@@ -122,9 +122,9 @@ namespace
 #define PN532_IRQ                       16
 
 // i2c
-#define PN532_SDA                      21
-#define PN532_SCL                      22
-#define PN532_RST                      25
+#define PN532_SDA                       21
+#define PN532_SCL                       22
+#define PN532_RST                       25
 
 
 #endif
