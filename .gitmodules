@@ -21,4 +21,4 @@
         url = https://github.com/2log-io/idfix-iodevices.git
 [submodule "2log-dot-hardware"]
 	path = 2log-dot-hardware
-	url = git@github.com:2log-io/2log-dot-hardware.git
+	url = https://github.com/2log-io/2log-dot-hardware.git
